@@ -1,0 +1,9 @@
+.element__like-container {
+  font-family: 'Inter', ‘Arial’, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 5px;
+}

@@ -1,0 +1,11 @@
+.footer {
+  font-family: 'Inter', ‘Arial’, sans-serif;
+  color: #545454;
+  max-width: 880px;
+  margin: 0 auto 60px;}
+
+@media screen and (max-width: 767px) {
+  .footer {
+    margin: 0 19px 36px;
+  }
+}
