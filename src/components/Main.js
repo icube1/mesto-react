@@ -4,9 +4,9 @@ import avatarEdit from '../images/profile__avatar-edit.svg';
 import Card from './Card.js';
 
 export default function Main(props) {
-  const [userName, setUserName] = React.useState();
-  const [userDescription , setUserDescription ] = React.useState();
-  const [userAvatar, setUserAvatar] = React.useState();
+  const [userName, setUserName] = React.useState('');
+  const [userDescription , setUserDescription ] = React.useState('');
+  const [userAvatar, setUserAvatar] = React.useState('');
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
@@ -15,11 +15,15 @@ export default function Main(props) {
       setUserAvatar(res.avatar);
       setUserName(res.name);
       setUserDescription(res.about);
-    });
+    })
+    .catch((err) => console.log(err));
+
+    
     api.getInitialCards('cards')
     .then((data) => {
       setCards(data)
         })
+    .catch((err) => console.log(err))
   }, [] );
 
   const cardElements = cards.map((card) => {
