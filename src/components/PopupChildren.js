@@ -37,11 +37,6 @@ function CardPopup() {
 function DeletePopup() {
   return (
     <>
-      <label style={{display: "hidden" }} className="popup__label">
-          <input required placeholder="Название" name="title" type="text" className="popup__input popup__input_field_name"
-            minLength="2" maxLength="40" autoComplete="off" />
-          <span id="title-error" className="error"></span>
-      </label>
       <button aria-label="Закрыть" type="submit" className="popup__save">Да</button>
     </>
   )
