@@ -13,9 +13,23 @@ export default function Card(props) {
   const cardDeleteButtonClassName = (
     `${isOwn ? 'element__delete-button_visible' : 'element__delete-button_hidden'}`
   );
+  const isLiked = props.card.likes.some(i => i._id === currentUser._id);
+  const cadLikeButtonClassName = (
+    `${isLiked ? 'element__like-button element__like-button_active' : 'element__like-button'}`
+  );
+
   function handleClick() {
-    props.onCardClick(props.card)
+    props.onCardClick(props.card);
   }
+
+  function handleLikeClick() {
+    props.onCardLike(props.card)
+  }
+
+  function handleDeleteClick() {
+    props.onDelete(props.card);
+  }
+
 
   return (
       <article className="element">
@@ -24,11 +38,11 @@ export default function Card(props) {
         className="element__cover"
         onClick={handleClick}
         />
-        <img onClick={props.onDelete} src={deleteButton} alt="Удалить карточку" className={cardDeleteButtonClassName} />
+        <img onClick={handleDeleteClick} src={deleteButton} alt="Удалить карточку" className={cardDeleteButtonClassName} />
         <div className="element__description">
           <h2 className="element__title">{props.name}</h2>
           <div className="element__like-container">
-          <button aria-label="понравилось" type="button" className="element__like-button"></button>
+          <button onClick={handleLikeClick} aria-label="понравилось" type="button" className={cadLikeButtonClassName}></button>
           <p className="element__like-button_quantity">{props.likes.length}</p></div>
         </div>
       </article>

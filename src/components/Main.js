@@ -1,28 +1,11 @@
 import React from 'react';
 import {api} from '../utils/Api.js';
 import avatarEdit from '../images/profile__avatar-edit.svg';
-import Card from './Card.js';
 import {CurrentUserContext} from '../contexts/CurrentUserContext.js';
 
 export default function Main(props) {
-  const [cards, setCards] = React.useState([]);
 
   const currentUser = React.useContext(CurrentUserContext);
-
-  React.useEffect(() => {
-    api.getInitialCards('cards')
-    .then((data) => {
-      setCards(data)
-        })
-    .catch((err) => console.log(err))
-  }, [] );
-
-  const cardElements = cards.map((card) => {
-    return (
-      <Card key={card._id} card={card} link={card.link} name={card.name} likes={card.likes} onDelete={props.onDelete} onCardClick={props.onCardClick} />
-    )
-  });
-
 
   return (
     <main className="main">
@@ -50,7 +33,7 @@ export default function Main(props) {
       <button  onClick={props.onAddPlace} aria-label="Добавить место" type="button" className="profile__add-card"></button>
     </section>
     <section className="elements">
-      {cardElements}
+      {props.cards}
     </section>
   </main>
   )

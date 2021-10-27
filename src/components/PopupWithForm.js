@@ -5,7 +5,7 @@ export default function PopupWithForm(props) {
       <div onClick={props.onClose} className={`popup ${props.name} ${isOpened}`}>
         <div onClick={((e) => e.stopPropagation())} className="popup__container">
           <h2 className="popup__title">{props.title}</h2>
-          <form noValidate name={props.name} className="popup__form">
+          <form noValidate name={props.name} className="popup__form" onSubmit={props.onSubmit}>
             {props.children}
           </form>
           <button onClick={props.onClose} aria-label="закрыть" type="button" className="popup__close"></button>
