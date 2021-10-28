@@ -1,50 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from './Header.js'
 import Main from './Main.js';
 import Footer from './Footer.js';
 import Card from './Card.js';
-import PopupWithForm from './PopupWithForm.js';
-import {AvatarPopup, DeletePopup, CardPopup } from './PopupChildren.js';
+import { CardPopup } from './CardPopup.js';
 import ImagePopup from './ImagePopup.js';
 import { api } from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-import { CardContext, currentCards } from '../contexts/CardContext.js';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
-import AddPlacePopup from './AddPlacePopup'
+import AddPlacePopup from './AddPlacePopup';
+import DeletePopup from './DeletePopup';
 
 function App() {
-const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
-const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
-const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-const [isDeleteCardPopupOpen, setDeleteCardPopupOpen] = React.useState(false);
-const [selectedCard, setSelectedCard] = React.useState({name: '', link: ''});
-const [cards, setCards] = React.useState([]);
+const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+const [isDeleteCardPopupOpen, setDeleteCardPopupOpen] = useState(false);
+const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
+const [deletedCard, setDeletedCard] = useState({name: '', link: ''})
+const [cards, setCards] = useState([]);
+const [currentUser, setCurrentUser] = useState({});
 
-const [currentUser, setCurrentUser] = React.useState({
-  name: "Имя",
-  about: "О себе",
-  avatar: "",
-  _id: "",
-});
-
-React.useEffect(() => { ///получение профиля пользователя
+useEffect(() => { ///получение профиля пользователя
   api.getData()
   .then((data) => {
     const [userInfo, cards] = data;
     setCurrentUser(userInfo);
+    setCards(cards);
   })
   .catch((err) => console.log(err));
 }, [] );
 
-React.useEffect(() => {
-  api.getInitialCards('cards')
-  .then((data) => {
-    setCards(data)
-      })
-  .catch((err) => console.log(err))
-}, [] );
 
 
   function handleEditAvatarClick() {
@@ -59,8 +47,9 @@ React.useEffect(() => {
     setAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
 
-  function handleDeleteCardClick() {
-    setDeleteCardPopupOpen(!isDeleteCardPopupOpen)
+  function handleDeleteCardClick(card) {
+    setDeleteCardPopupOpen(!isDeleteCardPopupOpen);
+    setDeletedCard(card);
   }
 
   function closeAllPopups() {
@@ -68,7 +57,8 @@ React.useEffect(() => {
     setAddPlacePopupOpen(false);
     setDeleteCardPopupOpen(false);
     setEditProfilePopupOpen(false);
-    setSelectedCard({name: '', link: ''})
+    setSelectedCard({name: '', link: ''});
+    setDeletedCard({name: '', link: '', _id: ''});
   }
 
   function handleCardClick(props) {
@@ -127,7 +117,7 @@ function handleCardDelete(card) {
     .catch((err) => console.log(err))
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     api.getInitialCards('cards')
     .then((data) => {
       setCards(data)
@@ -137,34 +127,27 @@ function handleCardDelete(card) {
 
   const cardElements = cards.map((card) => {
     return (
-      <Card key={card._id} card={card} link={card.link} name={card.name} likes={card.likes} onDelete={handleCardDelete} onCardClick={handleCardClick} onCardLike={handleCardLike} />
+      <Card key={card._id} card={card} link={card.link} name={card.name} likes={card.likes} onDelete={handleDeleteCardClick} onCardClick={handleCardClick} onCardLike={handleCardLike} />
     )
   });
 
 
   return (
-    <>
       <CurrentUserContext.Provider value={ currentUser }>
-      <CardContext.Provider value={ currentCards }>
-
         <Header />
         <Main cards={cardElements} onCardLike={handleCardLike} onCardDelete={handleCardDelete} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onDelete={handleDeleteCardClick} onCardClick={handleCardClick} />
         <Footer />
 
         <EditProfilePopup onClose={closeAllPopups} isOpen={isEditProfilePopupOpen} onUpdateProfile={handleUpdateProfile}/>
 
-        <AddPlacePopup onClose={closeAllPopups} name="card-popup" title="Новое место" children={<CardPopup />}  isOpen={isAddPlacePopupOpen} onAddPlace={addPlaceSubmit}/>
+        <AddPlacePopup onClose={closeAllPopups} children={<CardPopup />}  isOpen={isAddPlacePopupOpen} onAddPlace={addPlaceSubmit}/>
 
-        <PopupWithForm onClose={closeAllPopups} name="delete-popup" title="Вы уверены?" children={<DeletePopup />}  isOpen={isDeleteCardPopupOpen} />
+        <DeletePopup card={deletedCard} onClose={closeAllPopups} isOpen={isDeleteCardPopupOpen} onSubmit={handleCardDelete} />
 
         <EditAvatarPopup onClose={closeAllPopups} isOpen={isEditAvatarPopupOpen} onUpdateAvatar={handleUpdateAvatar} />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-
-      </CardContext.Provider>
       </CurrentUserContext.Provider>
-
-  </>
   );
 }
 

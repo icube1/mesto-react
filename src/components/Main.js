@@ -1,5 +1,4 @@
 import React from 'react';
-import {api} from '../utils/Api.js';
 import avatarEdit from '../images/profile__avatar-edit.svg';
 import {CurrentUserContext} from '../contexts/CurrentUserContext.js';
 

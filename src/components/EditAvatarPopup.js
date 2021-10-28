@@ -1,19 +1,19 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm.js';
 
-export default function EditAvatarPopup(props) {
+export default function EditAvatarPopup({onUpdateAvatar, onClose, isOpen}) {
   const avatarRef = React.useRef();
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.onUpdateAvatar({
+    onUpdateAvatar({
       avatar: avatarRef.current.value,
     });
   }
 
 
   return (
-    <PopupWithForm onClose={props.onClose} name="profile-popup" title="Редактировать профиль" isOpen={props.isOpen} onSubmit={handleSubmit}>
+    <PopupWithForm onClose={onClose} name="profile-popup" title="Редактировать профиль" isOpen={isOpen} onSubmit={handleSubmit}>
        <label className="popup__label">
           <input ref={avatarRef} required placeholder="Ссылка на картинку" name="avatar" type="url"
             className="popup__input popup__input_field_description" minLength="2" maxLength="200" autoComplete="off" />

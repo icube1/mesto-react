@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PopupWithForm from './PopupWithForm.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-import { currentCards } from '../contexts/CardContext.js';
 
 
-export default function EditProfilePopup(props) {
-  const [name, setName] = React.useState('')
-  const [about, setAbout] = React.useState('');
+export default function EditProfilePopup({onUpdateProfile, isOpen, onClose}) {
+  const [name, setName] = useState('')
+  const [about, setAbout] = useState('');
 
   function handleChangeName(evt) {
     setName(evt.target.value)
@@ -16,18 +15,18 @@ export default function EditProfilePopup(props) {
   }
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.onUpdateProfile({name, about})
+    onUpdateProfile({name, about})
   }
 
   const currentUser = React.useContext(CurrentUserContext)
 
-  React.useEffect(() => {
+  useEffect(() => {
     setName(currentUser.name);
     setAbout(currentUser.about);
-  }, [ currentUser, props.isOpen ])
+  }, [ currentUser, isOpen ])
 
   return (
-    <PopupWithForm onClose={props.onClose} name="profile-popup" title="Редактировать профиль" isOpen={props.isOpen} onSubmit={handleSubmit}>
+    <PopupWithForm onClose={onClose} name="profile-popup" title="Редактировать профиль" isOpen={isOpen} onSubmit={handleSubmit}>
           <label className="popup__label">
             <input required placeholder="Имя" name="name" type="text"
               className="popup__input popup__input_field_name" minLength="2" maxLength="40" autoComplete="off" value={name} onChange={handleChangeName} />
