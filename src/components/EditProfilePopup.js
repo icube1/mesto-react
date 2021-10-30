@@ -29,12 +29,12 @@ export default function EditProfilePopup({onUpdateProfile, isOpen, onClose}) {
     <PopupWithForm onClose={onClose} name="profile-popup" title="Редактировать профиль" isOpen={isOpen} onSubmit={handleSubmit}>
           <label className="popup__label">
             <input required placeholder="Имя" name="name" type="text"
-              className="popup__input popup__input_field_name" minLength="2" maxLength="40" autoComplete="off" value={name} onChange={handleChangeName} />
+              className="popup__input popup__input_field_name" minLength="2" maxLength="40" autoComplete="off" value={name || ''} onChange={handleChangeName} />
             <span id="name-error" className="error"></span>
             </label>
           <label className="popup__label">
               <input required placeholder="Профессиональная деятельность" name="about" type="text"
-                className="popup__input popup__input_field_description" minLength="2" maxLength="200" autoComplete="off" value={about} onChange={handleChangeAbout} />
+                className="popup__input popup__input_field_description" minLength="2" maxLength="200" autoComplete="off" value={about || ''} onChange={handleChangeAbout} />
               <span id="about-error" className="error"></span>
           </label>
             <button type="submit" className="popup__save">Сохранить</button>
