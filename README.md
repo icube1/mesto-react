@@ -1,22 +1,17 @@
-# Проект 10: Место
+# Project Mesto
 
-### Адаптивная страница "Место"
+### Adaptive page "Mesto"
 ###
-[проект на github pages](https://icube1.github.io/mesto-react/)
+[Project on github pages](https://icube1.github.io/mesto-react/)
 
-**Состоит из:**
 
-- блок _header_;
-- блок _main_ и, входящие в него, другие информационные блоки;
-- блок _footer_.
+**Technologies:**
 
-**Используемые технологии:**
-
--_React_;
+- _React_;
 - _flexbox_;
 - _grid layout_;
-- _медиазапросы_ для адаптации на разные экраны;
-- код проекта отсортирован по _методологии БЭМ_, файловая структура распределена по технологии Nested.
-- _JavaScript_ и _ООП_
+- _mediaqueries_ for adaptation on different screens;
+- Code is sorten on _BEM methodology_, file structure is spreaded by Nested technology.
+- _JavaScript_ и _OOP_
 ---
 ᓚᘏᗢ
